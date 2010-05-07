@@ -35,9 +35,9 @@ h3. Set Up
 
 # Create the database tables from the sql file located in /multiple_undo/config/schema/tables.sql.
 # Add the following to the appController:
-pre. public $components = array('MultipleUndo.Undoer');
+@public $components = array('MultipleUndo.Undoer');@
 # Add the following to your appModel:
-pre. var $actsAs = array('MultipleUndo.Undo'); 
+@var $actsAs = array('MultipleUndo.Undo');@
 		
 h3. Usage
 
