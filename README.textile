@@ -1,14 +1,14 @@
-h2. Multiple Undo H2
+h2. Multiple Undo
 
 The following plugin adds undo/redo functionality to any app using a very simple database structure. I am new to cake and this is my first attempt at making a contribution. It is in a very early state and I would love to see what the experienced bakers can show me about it.
 
 This project consists of a Component, a Behavior, and 3 Models which all work together to provide unlimited undo/redo capabilities for any database changes, by keeping track of those changes in 3 separate undo tables.
 
-h3. How It Works H3
+h3. How It Works
 
 * The Undoer Component allows any controller to mark a database transaction (1 or more creates/updates/deletes) as "undoable."
 * The Undo Behavior checks the data in beforeSave and records the state of the rows that will change.
-* The 3 related models, Undo, UndoTables, and UndoFields are used to store the undo data.
+* The 3 related models, *Undo*, *UndoTables*, and *UndoFields* are used to store the undo data.
 
 The data in the 3 undo tables accomplish two things:
 
@@ -31,15 +31,17 @@ When we perform an undo (always at id 0), we nudge all of the ids down ( -1). In
 * When performing redos, the ids are nudged up (+1)
 
 
-h3. Set Up H3
+h3. Set Up
 
 # Create the database tables from the sql file located in /multiple_undo/config/schema/tables.sql.
-# Add the following to the appController: pre. public $components = array('MultipleUndo.Undoer');
-# Add the following to your appModel: pre. var $actsAs = array('MultipleUndo.Undo'); 
+# Add the following to the appController:
+pre. public $components = array('MultipleUndo.Undoer');
+# Add the following to your appModel:
+pre. var $actsAs = array('MultipleUndo.Undo'); 
 		
-h3. Usage H3
+h3. Usage
 
-h4. Initializing the Undo Tables H4
+h4. Initializing the Undo Tables
 
 To clean the slate and reset the undo tables (i.e. when the a user logs in), you can call:
 
@@ -55,13 +57,11 @@ So, any time you wrap some model saves and deletes with @$this->Undoer->start()@
 
 _Note: You can not undo an updateAll() because, as mentioned in the Cookbook, updateAll() bypasses the beforeSave()._
 
-h4. Now, Undo and Redo! H4
+h4. Now, Undo and Redo!
 
 To undo or redo, you could put something like this in your view:
 
-<pre><code>
-<?=$html->link('undo', array('plugin' => 'multiple_undo', 'controller' => 'undos', 'action' => 'undo'));?>
-	
+<pre><code><?=$html->link('undo', array('plugin' => 'multiple_undo', 'controller' => 'undos', 'action' => 'undo'));?>	
 <?=$html->link('redo', array('plugin' => 'multiple_undo', 'controller' => 'undos', 'action' => 'redo'));?>
 </code></pre>
 
@@ -69,7 +69,7 @@ The undo and redo actions in the UndosController redirect to the referring page,
 
 One thing that I did not mention is the implementation of the "description" of each undo. This description is optional, and could be displayed as the user clicks back through undos...
 
-h3. Thoughts H3
+h3. Thoughts
 
 My main intention here, as a newbie to cake, is to develop proper baking skills. I tried to write this in the way that I thought made sense, but what I really could use is some feedback about where my code is and how it is organized.
 
