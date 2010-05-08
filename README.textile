@@ -1,6 +1,6 @@
 h2. Multiple Undo
 
-The following plugin adds undo/redo functionality to any app using a very simple database structure. I am new to cake and this is my first attempt at making a contribution. It is in a very early state and I would love to see what the experienced bakers can show me about it.
+This plugin adds undo/redo functionality to any app using a very simple database structure. I am new to cake and this is my first attempt at making a contribution. It is in a very early state and I would love to see what the experienced bakers can show me about it.
 
 This project consists of a Component, a Behavior, and 3 Models which all work together to provide unlimited undo/redo capabilities for any database changes, by keeping track of those changes in 3 separate undo tables.
 
@@ -33,6 +33,7 @@ When we perform an undo (always at id 0), we nudge all of the ids down ( -1). In
 
 h3. Set Up
 
+# Download the source, make sure the parent folder is called "multiple_undo", and place it in the "plugins" folder in your app.
 # Create the database tables from the sql file located in /multiple_undo/config/schema/tables.sql.
 # Add the following to the appController:
 @public $components = array('MultipleUndo.Undoer');@
