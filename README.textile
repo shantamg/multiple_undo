@@ -4,33 +4,6 @@ This plugin adds undo/redo functionality to any app using a very simple database
 
 This project consists of a Component, a Behavior, and 3 Models which all work together to provide unlimited undo/redo capabilities for any database changes, by keeping track of those changes in 3 separate undo tables.
 
-h3. How It Works
-
-* The Undoer Component allows any controller to mark a database transaction (1 or more creates/updates/deletes) as "undoable."
-* The Undo Behavior checks the data in beforeSave and records the state of the rows that will change.
-* The 3 related models, *Undo*, *UndoTables*, and *UndoFields* are used to store the undo data.
-
-The data in the 3 undo tables accomplish two things:
-
-# Identify the model, what action was performed on it (create, update, delete), and the names and contents of each field before the action took place.
-# Group multiple database changes into one transaction, or "undo", and give it a description.
-
-_A Note About the Table ids: 0 is Always Now_
-
-The id in the Undo model serves as a chronology of undoable actions. But it also does more. Instead of storing somewhere a placeholder for the current undo, we nudge the ids up and down as we traverse the table so that 0 always represents the current undo. In fact, the id of an undo represents its distance from the current action.
-
-* *0* is the first available undo.
-* *Positive* ids are increasingly older undos.
-* *Negative* ids are redos.
-
-As actions are being performed and undos are being recorded, each undo is born with id 0, and all undos are nudged up when a new '0' is made. In other words, they are being created in such a way that their ids are directly proportional to their age (the higher the id, the older the entry).
-
-When we perform an undo (always at id 0), we nudge all of the ids down ( -1). In this way, negative ids represent possible redos. When performing a redo (always at id -1), we then nudge all of the ids up (+1).
-
-* When performing undos, the ids are nudged down (-1)
-* When performing redos, the ids are nudged up (+1)
-
-
 h3. Set Up
 
 # Download the source, make sure the parent folder is called "multiple_undo", and place it in the "plugins" folder in your app.
@@ -68,7 +41,34 @@ To undo or redo, you could put something like this in your view:
 
 The undo and redo actions in the UndosController redirect to the referring page, but you can play around with that if you like.
 
-One thing that I did not mention is the implementation of the "description" of each undo. This description is optional, and could be displayed as the user clicks back through undos...
+One thing that I did not mention is the implementation of the "description" of each undo. This description is optional, and could be kept in the session and displayed as the user clicks back through undos...
+
+h3. How It Works
+
+* The Undoer Component allows any controller to mark a database transaction (1 or more creates/updates/deletes) as "undoable."
+* The Undo Behavior checks the data in beforeSave and records the state of the rows that will change.
+* The 3 related models, *Undo*, *UndoTables*, and *UndoFields* are used to store the undo data.
+
+The data in the 3 undo tables accomplish two things:
+
+# Identify the model, what action was performed on it (create, update, delete), and the names and contents of each field before the action took place.
+# Group multiple database changes into one transaction, or "undo", and give it a description.
+
+_A Note About the Table ids: 0 is Always Now_
+
+The id in the Undo model serves as a chronology of undoable actions. But it also does more. Instead of storing somewhere a placeholder for the current undo, we nudge the ids up and down as we traverse the table so that 0 always represents the current undo. In fact, the id of an undo represents its distance from the current action.
+
+* *0* is the first available undo.
+* *Positive* ids are increasingly older undos.
+* *Negative* ids are redos.
+
+As actions are being performed and undos are being recorded, each undo is born with id 0, and all undos are nudged up when a new '0' is made. In other words, they are being created in such a way that their ids are directly proportional to their age (the higher the id, the older the entry).
+
+When we perform an undo (always at id 0), we nudge all of the ids down ( -1). In this way, negative ids represent possible redos. When performing a redo (always at id -1), we then nudge all of the ids up (+1).
+
+* When performing undos, the ids are nudged down (-1)
+* When performing redos, the ids are nudged up (+1)
+
 
 h3. Thoughts
 
