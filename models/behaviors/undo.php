@@ -49,7 +49,9 @@ class UndoBehavior extends ModelBehavior {
      */   
     function afterSave(&$model, $created) { 
         if ($this->Undo->undoing && !$model->bypass) { 
-            if ($created) $this->Undo->undoData = $model->data; 
+            if ($created) {
+            	$this->Undo->undoData = $model->data;
+            }
             $this->Undo->saveUndo(($created xor 1) + 1); // 1 for create or 2 for update 
         } 
     }         

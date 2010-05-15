@@ -90,7 +90,7 @@ class Undo extends MultipleUndoAppModel {
      *
      * UndoTable action: 0 - delete; 1 - create; 2 - update;
      * $reverse_action is used to specify if this is an undo
-     * or a redo. When this method is called from doRedo(), the
+     * or a redo. When this method is called from doUndo(), the
      * $reverse_action parameter is set to true.
      */
     function getChanges($reverse_action = false) { 
